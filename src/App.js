@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from "react";
+import YouTube from "react-youtube";
+import "./App.css";
 
 function App() {
+  const thevideo = useRef();
+  const [options, setOptions] = useState({
+    height: "400px",
+    width: "100%",
+    playerVars: {
+      // eslint-disable-next-line no-restricted-globals
+      origin: location.origin,
+      fs: "0",
+      autoplay: 1,
+      mute: 1,
+      controls: 1,
+      rel: 0,
+    },
+  });
+
+  const onReady = (event) => {
+    const player = event.target;
+    console.log(event);
+    console.log("referencia de video", thevideo);
+    player.playVideo();
+    thevideo.current.internalPlayer.unMute();
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <YouTube
+        ref={thevideo}
+        videoId="ksiqkLxtef4"
+        opts={options}
+        onReady={onReady}
+      />
     </div>
   );
 }
